@@ -60,7 +60,12 @@ public:
 	*/
 	void insertAt(int position, T valueToInsert);
 
+	/*
+	*Sorts the LinkedList using QuickSort
+	*/
 	void sort();
+
+	bool contains(T value);
 
 	/*
 	*Prints out the LinkedList via the << operator

@@ -167,6 +167,23 @@ void LinkedList<T>::sort()
 }
 
 template<class T>
+bool LinkedList<T>::contains(T value)
+{
+	Node<T> * currentNode = new Node<T>();
+	currentNode = head;
+
+	while (currentNode != NULL)
+	{
+		if (currentNode->data == value)
+		{
+			return true;
+		}
+		currentNode = currentNode->next;
+	}
+	return false;
+}
+
+template<class T>
 ostream & operator<<(std::ostream & os, const LinkedList<T>& list)
 {
 	if(!list.isEmpty())
