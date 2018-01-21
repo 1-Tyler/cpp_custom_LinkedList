@@ -1,15 +1,14 @@
 #include "stdafx.h"
 #include "LinkedList.h"
+#include "Sort.h"
 #include <string>
 #include <sstream>
+#include <vector>
 
 template<class T>
 LinkedList<T>::LinkedList()
 {
-	//head = NULL;
-	//tail = NULL;
-	//head->next = NULL;
-	//tail->next = NULL;
+
 }
 
 template<class T>
@@ -22,6 +21,9 @@ LinkedList<T>::LinkedList(Node<T> *newNode)
 template<class T>
 LinkedList<T>::~LinkedList()
 {
+	delete head;
+	delete tail;
+	delete this;
 }
 
 template<class T>
@@ -33,19 +35,12 @@ void LinkedList<T>::pushFirst(T value)
 		nodeToAdd->next = head;
 		head->previous = nodeToAdd;
 	}
+
 	head = nodeToAdd;
-	//nodeToAdd->next = head;
-	//head = nodeToAdd;
 	if (tail == NULL)
 	{
 		tail = head;
-		//tail->previous = head->next;
 	}
-	/*
-	else if (tail->previous == NULL)
-	{
-		tail->previous = nodeToAdd;
-	}*/
 	return;
 }
 
@@ -58,7 +53,7 @@ void LinkedList<T>::pushLast(T value)
 		nodeToAdd->previous = tail;
 		tail->next = nodeToAdd;
 	}
-	//nodeToAdd->next = tail;
+
 	tail = nodeToAdd;
 	if (head == NULL)
 	{
@@ -76,6 +71,7 @@ T LinkedList<T>::popFirst()
 	nodeToPop = head->next;
 	T valueOfPoppedHead = head->data;
 	head = nodeToPop;
+
 	if (head == NULL)
 	{
 		tail = head;
@@ -92,6 +88,7 @@ T LinkedList<T>::popLast()
 	nodeToPop = tail->next;
 	T valueOfPoppedHead = tail->data;
 	tail = nodeToPop;
+
 	if (tail == NULL)
 	{
 		head = tail;
@@ -104,8 +101,8 @@ T LinkedList<T>::peekFirst()
 {
 	if (isEmpty())
 	{
-		//return "LinkedList is empty.";
-		return -1;
+		cout << "LinkedList is empty.";
+		return NULL;
 	}
 	else
 	{
@@ -118,8 +115,8 @@ T LinkedList<T>::peekLast()
 {
 	if (isEmpty())
 	{
-		//return "LinkedList is empty.";
-		return -1;
+		cout << "LinkedList is empty.";
+		return NULL;
 	}
 	else
 	{
@@ -133,31 +130,45 @@ bool LinkedList<T>::isEmpty()
 	return head == NULL;
 }
 
-
-
-/*template<class T>
-std::ostream & LinkedList<T>::operator<<(std::ostream & os, const LinkedList<T>& list)
+template<class T>
+void LinkedList<T>::insertAt(int position, T valueToInsert)
 {
-	if (!list.isEmpty())
+	Node<T> * nodeToAdd = new Node<T>(valueToInsert);
+	Node<T> * currentNode = new Node<T>();
+	currentNode = head;
+
+	int counter = 0;
+	while (currentNode != NULL)
 	{
-		Node<T> currentNode = list.head;
-		while (currentNode.data != NULL)
+		if (counter == position)
 		{
-			os << "[ " + currentNode->data + " ]->";
-			currentNode = currentNode->next;
+			nodeToAdd->next = currentNode;
+			nodeToAdd->previous = currentNode->previous;
+			currentNode->previous = nodeToAdd;
+			return;
 		}
+		else counter++;
 	}
-	else
+}
+
+template<class T>
+void LinkedList<T>::sort()
+{
+	vector<T> copyOfLinkedList;
+	Node<T> * currentNode = new Node<T>();
+	currentNode = head;
+
+	while (currentNode != NULL)
 	{
-		os << "LinkedList in empty.";
+		copyOfLinkedList.push_back(currentNode->data);
+		currentNode = currentNode->next;
 	}
-	return os;
-}*/
+	Sort.quickSort(copyOfLinkedList, 0, copyOfLinkedList.size()-1);
+}
 
 template<class T>
 ostream & operator<<(std::ostream & os, const LinkedList<T>& list)
 {
-	//if (list.head != NULL) 
 	if(!list.isEmpty())
 	{
 		Node<T> currentNode = list.head;
@@ -172,31 +183,6 @@ ostream & operator<<(std::ostream & os, const LinkedList<T>& list)
 		os << "LinkedList in empty.";
 	}
 	return os;
-}
-
-template<class T>
-std::string LinkedList<T>::toString()
-{
-	stringstream ss;
-	ss << 1;
-	cout << ss.str();
-	string list = "hee";
-	cout << list;
-	list += "yo";
-	list += "_mamma";
-	cout << list;
-	return list;
-	Node<T> * currentNode = head;
-	while(currentNode != NULL)
-	{
-		list += currentNode->data;
-		currentNode = currentNode->next;
-	}
-	return list;
-	//for (auto it = this.begin(); it != this.end(); ++it)
-	//{
-		//cout << this.data;
-	//}
 }
 
 template<class T>
