@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "LinkedList.h"
 #include "Sort.h"
+#include "Sort.cpp"
 #include <string>
 #include <sstream>
 #include <vector>
@@ -147,7 +148,8 @@ void LinkedList<T>::insertAt(int position, T valueToInsert)
 			currentNode->previous = nodeToAdd;
 			return;
 		}
-		else counter++;
+		counter++;
+		currentNode = currentNode->next;
 	}
 }
 
@@ -163,7 +165,8 @@ void LinkedList<T>::sort()
 		copyOfLinkedList.push_back(currentNode->data);
 		currentNode = currentNode->next;
 	}
-	Sort.quickSort(copyOfLinkedList, 0, copyOfLinkedList.size()-1);
+	Sort<T> sort;
+	sort.quickSort(copyOfLinkedList, 0, copyOfLinkedList.size() - 1);
 }
 
 template<class T>
